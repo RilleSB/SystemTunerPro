@@ -1,0 +1,80 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DiskCleanerGUI.Avalonia.ViewModels"
+             xmlns:models="using:DiskCleanerGUI.Avalonia.Models"
+             xmlns:cvt="using:DiskCleanerGUI.Avalonia.Converters"
+             xmlns:ext="using:DiskCleanerGUI.Avalonia.Extensions"
+             x:Class="DiskCleanerGUI.Avalonia.Views.CleaningView"
+             x:DataType="vm:CleaningViewModel">
+
+  <UserControl.Resources>
+    <cvt:ByteSizeConverter x:Key="ByteSizeConverter"/>
+  </UserControl.Resources>
+
+  <Grid RowDefinitions="Auto,Auto,*,Auto" ColumnDefinitions="*">
+    <!-- Options -->
+    <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,0,0,12">
+      <CheckBox x:Name="TempFilesCheckBox" Content="{Binding TempFilesText}" IsChecked="{Binding TempUser}" ToolTip.Tip="{Binding TempFilesTooltip}"/>
+      <CheckBox x:Name="SystemFilesCheckBox" Content="{Binding SystemFilesText}" IsChecked="{Binding TempWindows}" ToolTip.Tip="{Binding SystemFilesTooltip}"/>
+      <CheckBox x:Name="BrowserCacheCheckBox" Content="{Binding BrowserCacheText}" IsChecked="{Binding Browsers}" ToolTip.Tip="{Binding BrowserCacheTooltip}"/>
+      <CheckBox x:Name="AppCacheCheckBox" Content="{Binding AppCacheText}" IsChecked="{Binding Apps}" ToolTip.Tip="{Binding AppCacheTooltip}"/>
+      <CheckBox x:Name="WindowsUpdateCheckBox" Content="{Binding WindowsUpdateText}" IsChecked="{Binding WindowsUpdate}" ToolTip.Tip="{Binding WindowsUpdateTooltip}"/>
+    </StackPanel>
+
+    <!-- Main Actions -->
+    <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="12" Margin="0,0,0,12">
+      <Button x:Name="ScanButton" Content="{Binding ScanButtonText}" Command="{Binding ScanCommand}" Background="#AA4CAF50" Foreground="White" Padding="20,10" FontWeight="Bold" CornerRadius="10" IsEnabled="{Binding !IsWorking}" ToolTip.Tip="{Binding ScanTooltip}"/>
+      <Button x:Name="CleanButton" Content="{Binding CleanButtonText}" Command="{Binding CleanCommand}" Background="#AAFF5722" Foreground="White" Padding="20,10" FontWeight="Bold" CornerRadius="10" IsEnabled="{Binding !IsWorking}" ToolTip.Tip="{Binding CleanTooltip}"/>
+    </StackPanel>
+
+    <!-- Preview list -->
+    <Border Grid.Row="2" Margin="0,0,0,12" Background="#AA101828" CornerRadius="8" Padding="8">
+      <Grid RowDefinitions="Auto,Auto,*" RowSpacing="8">
+        <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+          <TextBox x:Name="SearchBox" Text="{Binding Filter}" Watermark="{Binding SearchText}" ToolTip.Tip="{Binding SearchTooltip}"/>
+          <Button Grid.Column="1" Content="{Binding SelectAllText}" Command="{Binding SelectAllCommand}" Padding="12,6"/>
+          <Button Grid.Column="2" Content="{Binding ClearSelectionText}" Command="{Binding ClearSelectionCommand}" Padding="12,6"/>
+        </Grid>
+        <TextBlock Grid.Row="1" Text="{Binding FoundSizeSummary}" Foreground="#D5DCEC" FontWeight="SemiBold"/>
+        <ListBox Grid.Row="2" ItemsSource="{Binding GroupedItems}">
+          <ListBox.ItemTemplate>
+            <DataTemplate x:DataType="vm:FileGroupViewModel">
+              <Expander IsExpanded="True">
+                <Expander.Header>
+                  <StackPanel Orientation="Horizontal" Spacing="10">
+                    <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                              IsThreeState="True"
+                              VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Key}" Foreground="White" Width="210" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock Text="{Binding FileCount, StringFormat='{}{0} шт.'}" Foreground="#8F9BB3" Width="65"/>
+                    <TextBlock Text="{Binding TotalSize, Converter={StaticResource ByteSizeConverter}}" Foreground="#B0B9CC" Width="80" TextAlignment="Right"/>
+                  </StackPanel>
+                </Expander.Header>
+                <ItemsControl ItemsSource="{Binding Items}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="models:FileItem">
+                      <StackPanel Orientation="Horizontal" Spacing="8" Margin="20,2">
+                        <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding Path}" Foreground="White" Width="260" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding Size, Converter={StaticResource ByteSizeConverter}}" Foreground="#B0B9CC" Width="60"/>
+                      </StackPanel>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </Expander>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </Grid>
+    </Border>
+
+    <!-- Status -->
+    <Border Grid.Row="3" Background="#DD000000" CornerRadius="8" Padding="12">
+      <StackPanel Orientation="Vertical" Spacing="6">
+        <ProgressBar Classes="custom" Minimum="0" Maximum="100" Value="{Binding Progress}"/>
+        <TextBlock Text="{Binding Status}" Foreground="White" HorizontalAlignment="Center" FontWeight="SemiBold"/>
+      </StackPanel>
+    </Border>
+  </Grid>
+
+</UserControl>

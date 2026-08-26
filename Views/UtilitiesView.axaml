@@ -1,0 +1,153 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DiskCleanerGUI.Avalonia.ViewModels"
+             xmlns:cvt="using:DiskCleanerGUI.Avalonia.Converters"
+             xmlns:ext="using:DiskCleanerGUI.Avalonia.Extensions"
+             x:Class="DiskCleanerGUI.Avalonia.Views.UtilitiesView"
+             x:DataType="vm:UtilitiesViewModel">
+
+
+
+  <ScrollViewer>
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="16">
+    
+    <!-- System Monitoring -->
+    <Border Background="#AA2196F3" CornerRadius="12" Padding="16" Margin="0,0,0,16">
+      <StackPanel Spacing="12">
+        <TextBlock x:Name="SystemMonitoringTitle" Text="📊 Мониторинг системы" FontSize="18" FontWeight="Bold" Foreground="White"/>
+        
+        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="16">
+          <!-- CPU -->
+          <StackPanel>
+            <TextBlock x:Name="ProcessorLabel" Text="🖥️ Процессор" Foreground="White" FontWeight="SemiBold"/>
+            <ProgressBar Value="{Binding CpuUsage}" Maximum="100" Height="8" CornerRadius="4" 
+                         Background="#33FFFFFF" Foreground="#4CAF50" Margin="0,4,0,2"/>
+            <TextBlock Text="{Binding CpuUsage, StringFormat='{}{0}%'}" Foreground="#CCFFFFFF" FontSize="12"/>
+          </StackPanel>
+          
+          <!-- Memory -->
+          <StackPanel Grid.Column="1">
+            <TextBlock x:Name="MemoryLabel" Text="🧠 Память" Foreground="White" FontWeight="SemiBold"/>
+            <TextBlock Text="{Binding MemoryUsageText}" Foreground="#CCFFFFFF" FontSize="14" FontWeight="SemiBold"/>
+          </StackPanel>
+          
+          <!-- Disk -->
+          <StackPanel Grid.Column="2">
+            <TextBlock x:Name="DisksLabel" Text="💾 Диски" Foreground="White" FontWeight="SemiBold"/>
+            <ItemsControl ItemsSource="{Binding DiskUsage}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="{Binding Drive}" Foreground="White" FontSize="12"/>
+                    <TextBlock Text="{Binding UsagePercent, StringFormat='{}{0}%'}" Foreground="#CCFFFFFF" FontSize="12"/>
+                  </StackPanel>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+        </Grid>
+      </StackPanel>
+    </Border>
+    
+    <!-- Quick Utilities -->
+    <Border Grid.Row="1" Background="#AA4CAF50" CornerRadius="12" Padding="16" Margin="0,0,0,16">
+      <StackPanel Spacing="12">
+        <TextBlock x:Name="QuickUtilitiesTitle" Text="🚀 Быстрые утилиты" FontSize="18" FontWeight="Bold" Foreground="White"/>
+        
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="12" RowDefinitions="Auto,Auto" RowSpacing="8">
+          <Button x:Name="RestartExplorerBtn" Content="{Binding RestartExplorerText}" Command="{Binding RestartExplorerCommand}" 
+                  Background="#FF5722" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}" ToolTip.Tip="{Binding RestartExplorerTooltipText}"/>
+          
+          <Button x:Name="FreeMemoryBtn" Grid.Column="1" Content="{Binding FreeMemoryText}" Command="{Binding FreeMemoryCommand}" 
+                  Background="#9C27B0" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}" ToolTip.Tip="{Binding FreeMemoryTooltipText}"/>
+          
+          <Button x:Name="FlushDnsBtn" Grid.Row="1" Content="{Binding FlushDnsText}" Command="{Binding FlushDnsCommand}" 
+                  Background="#2196F3" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}" ToolTip.Tip="{Binding FlushDnsTooltipText}"/>
+          
+          <Button x:Name="ResetNetworkBtn" Grid.Row="1" Grid.Column="1" Content="{Binding ResetNetworkText}" Command="{Binding ResetNetworkCommand}" 
+                  Background="#FF9800" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}" ToolTip.Tip="{Binding ResetNetworkTooltipText}"/>
+        </Grid>
+      </StackPanel>
+    </Border>
+    
+    <!-- Large Files Finder -->
+    <Border Grid.Row="2" Background="#AAFF9800" CornerRadius="12" Padding="16" Margin="0,0,0,16">
+      <StackPanel Spacing="10">
+        <TextBlock Text="📊 Поиск больших файлов" FontSize="18" FontWeight="Bold" Foreground="White"/>
+        
+        <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+          <TextBox Text="{Binding ScanPath}" Watermark="C:\" Background="White" Foreground="Black"/>
+          <Button Grid.Column="1" Content="👤" Command="{Binding SelectUserProfileCommand}" Margin="5,0,0,0" Padding="8,4"/>
+          <Button Grid.Column="2" Content="📥" Command="{Binding SelectDownloadsCommand}" Margin="5,0,0,0" Padding="8,4"/>
+          <Button Grid.Column="3" Content="📄" Command="{Binding SelectDocumentsCommand}" Margin="5,0,0,0" Padding="8,4"/>
+        </Grid>
+        
+        <Grid ColumnDefinitions="*,Auto">
+          <Slider Minimum="10" Maximum="1000" Value="{Binding MinSizeMB}"/>
+          <TextBlock Grid.Column="1" Text="{Binding MinSizeMB, StringFormat='{}{0} MB'}" Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center"/>
+        </Grid>
+        
+        <Grid ColumnDefinitions="*,Auto">
+          <Button Content="🔍 Поиск" Command="{Binding ScanLargeFilesCommand}" IsEnabled="{Binding !IsScanning}" Background="#4CAF50" Foreground="White" Padding="12,6"/>
+          <Button Grid.Column="1" Content="❌" Command="{Binding CancelScanCommand}" IsEnabled="{Binding IsScanning}" Margin="8,0,0,0" Padding="12,6"/>
+        </Grid>
+        
+        <TextBlock Text="{Binding LargeFilesStatus}" Foreground="White" FontSize="12"/>
+        
+        <ListBox ItemsSource="{Binding LargeFiles}" SelectedItem="{Binding SelectedLargeFile}" Height="150" Background="#33000000">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Text="{Binding FileName}" Foreground="White"/>
+                <TextBlock Grid.Column="1" Text="{Binding SizeFormatted}" Foreground="#CCFFFFFF" Margin="10,0,0,0"/>
+              </Grid>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <Button Content="📂" Command="{Binding OpenLargeFileFolderCommand}" Padding="8,4"/>
+          <Button Content="🗑️" Command="{Binding DeleteLargeFileCommand}" Background="#D32F2F" Foreground="White" Padding="8,4"/>
+        </StackPanel>
+      </StackPanel>
+    </Border>
+    
+    <!-- Shutdown Timer -->
+    <Border Grid.Row="3" Background="#AAF44336" CornerRadius="12" Padding="16" Margin="0,0,0,16">
+      <StackPanel Spacing="12">
+        <TextBlock x:Name="ShutdownTimerTitle" Text="⏰ Таймер выключения" FontSize="18" FontWeight="Bold" Foreground="White"/>
+        
+        <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
+          <TextBlock x:Name="ShutdownInLabel" Text="Выключить через:" Foreground="White" VerticalAlignment="Center"/>
+          <TextBox Text="{Binding ShutdownMinutes}" Width="80" HorizontalContentAlignment="Center" 
+                   Background="White" Foreground="Black" Padding="8,4" CornerRadius="4"/>
+          <TextBlock x:Name="MinutesLabel" Text="минут" Foreground="White" VerticalAlignment="Center"/>
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
+          <Button x:Name="SetTimerBtn" Content="{Binding SetTimerText}" Command="{Binding SetShutdownTimerCommand}" 
+                  Background="#E91E63" Foreground="White" Padding="16,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}" ToolTip.Tip="{Binding SetTimerTooltipText}"/>
+          
+          <Button x:Name="CancelTimerBtn" Content="{Binding CancelTimerText}" Command="{Binding CancelShutdownCommand}" 
+                  Background="#607D8B" Foreground="White" Padding="16,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}" ToolTip.Tip="{Binding CancelTimerTooltipText}"/>
+        </StackPanel>
+      </StackPanel>
+    </Border>
+    
+    <!-- Status Bar -->
+    <Border Grid.Row="4" Background="#DD000000" CornerRadius="8" Padding="12">
+      <StackPanel Orientation="Horizontal" Spacing="12">
+        <TextBlock Text="🔄" FontSize="16" IsVisible="{Binding IsWorking}"/>
+        <TextBlock Text="{Binding Status}" Foreground="White" FontWeight="SemiBold" VerticalAlignment="Center"/>
+      </StackPanel>
+    </Border>
+    
+    </Grid>
+  </ScrollViewer>
+</UserControl>

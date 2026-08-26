@@ -1,0 +1,94 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!-- Gradient rounded button -->
+  <Style Selector="Button.custom">
+    <Setter Property="CornerRadius" Value="20"/>
+    <Setter Property="Padding" Value="14,10"/>
+    <Setter Property="Background">
+      <Setter.Value>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+          <GradientStop Color="#8EE089" Offset="0"/>
+          <GradientStop Color="#283C78" Offset="1"/>
+        </LinearGradientBrush>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Foreground" Value="White"/>
+    <Setter Property="FontWeight" Value="Bold"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <Border Background="{TemplateBinding Background}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  BorderBrush="Transparent" BorderThickness="0">
+            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Transitions">
+      <Transitions>
+        <DoubleTransition Property="Opacity" Duration="0:0:0.12" Easing="CubicEaseOut"/>
+      </Transitions>
+    </Setter>
+  </Style>
+
+  <Style Selector="Button.custom:pointerover">
+    <Setter Property="Opacity" Value="0.92"/>
+  </Style>
+  <Style Selector="Button.custom:pressed">
+    <Setter Property="Opacity" Value="0.85"/>
+  </Style>
+
+  <!-- Modern progress bar with gradient fill -->
+  <Style Selector="ProgressBar.custom">
+    <Setter Property="Height" Value="10"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <Grid ClipToBounds="True">
+            <Border Background="#1F2A44" CornerRadius="6"/>
+            <Border x:Name="PART_Indicator" CornerRadius="6" HorizontalAlignment="Left" Width="0">
+              <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                  <GradientStop Color="#51C8FF" Offset="0"/>
+                  <GradientStop Color="#8EE089" Offset="1"/>
+                </LinearGradientBrush>
+              </Border.Background>
+            </Border>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- TabControl styling -->
+  <Style Selector="TabControl">
+    <Setter Property="Padding" Value="8"/>
+    <Setter Property="TabStripPlacement" Value="Top"/>
+  </Style>
+
+  <Style Selector="TabControl TabItem">
+    <Setter Property="Margin" Value="0,0,8,0"/>
+    <Setter Property="Padding" Value="12,8"/>
+    <Setter Property="CornerRadius" Value="12"/>
+    <Setter Property="Background" Value="#22304F"/>
+    <Setter Property="Foreground" Value="#E6EEF8"/>
+  </Style>
+
+  <Style Selector="TabControl TabItem:selected">
+    <Setter Property="Background">
+      <Setter.Value>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+          <GradientStop Color="#425F9E" Offset="0"/>
+          <GradientStop Color="#2D3F6E" Offset="1"/>
+        </LinearGradientBrush>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- DataGrid compact look -->
+  <Style Selector="DataGrid">
+    <Setter Property="CornerRadius" Value="6"/>
+    <!-- Removed GridLinesVisibility/HeadersVisibility/RowHeight to avoid FieldAccess on some Avalonia builds -->
+  </Style>
+</Styles>

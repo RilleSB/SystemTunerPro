@@ -1,0 +1,20 @@
+bin/
+obj/
+*.user
+*.suo
+.vs/
+.idea/
+
+# Local application data and generated archives
+*.zip
+*.log
+crash*.txt
+avalonia_crash.txt
+
+# Local secrets/configuration
+appsettings.Local.json
+settings.json
+config.json
+*.pem
+*.pfx
+*.key

@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DiskCleanerGUI.Avalonia.ViewModels"
+             x:Class="DiskCleanerGUI.Avalonia.Views.BackgroundPreviewHost"
+             x:DataType="vm:BackgroundViewModel">
+
+  <StackPanel Spacing="16">
+    <TextBlock Text="Выберите фон:" FontSize="16" FontWeight="Bold" Foreground="White"/>
+    
+    <StackPanel Orientation="Horizontal" Spacing="12">
+      <Button Content="Океан" Command="{Binding SetOceanCommand}" Background="#667eea" Foreground="White" Padding="15,8"/>
+      <Button Content="Закат" Command="{Binding SetSunsetCommand}" Background="#f093fb" Foreground="White" Padding="15,8"/>
+      <Button Content="Лес" Command="{Binding SetForestCommand}" Background="#56ab2f" Foreground="White" Padding="15,8"/>
+    </StackPanel>
+    
+    <StackPanel Orientation="Horizontal" Spacing="12">
+      <Button Content="Космос" Command="{Binding SetSpaceCommand}" Background="#2c3e50" Foreground="White" Padding="15,8"/>
+      <Button Content="Огонь" Command="{Binding SetFireCommand}" Background="#ff6b6b" Foreground="White" Padding="15,8"/>
+      <Button Content="Лед" Command="{Binding SetIceCommand}" Background="#74b9ff" Foreground="White" Padding="15,8"/>
+    </StackPanel>
+    
+    <Border CornerRadius="8" Padding="20" Background="{Binding BackgroundBrush}" Height="200">
+      <TextBlock Text="Превью фона" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="18" FontWeight="Bold"/>
+    </Border>
+  </StackPanel>
+
+</UserControl>

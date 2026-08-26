@@ -1,0 +1,64 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:DiskCleanerGUI.Avalonia.ViewModels"
+        xmlns:views="using:DiskCleanerGUI.Avalonia.Views"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="750"
+        x:Class="DiskCleanerGUI.Avalonia.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="SystemTuner Pro">
+
+  <Design.DataContext>
+    <vm:MainWindowViewModel/>
+  </Design.DataContext>
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+
+    <!-- Top bar with title/actions -->
+    <Border Grid.Row="0" Padding="16" Background="#0F1629">
+      <DockPanel>
+        <TextBlock x:Name="AppTitleText" Text="SystemTuner Pro" FontSize="20" FontWeight="SemiBold" Foreground="White"/>
+      </DockPanel>
+    </Border>
+
+    <!-- Content host with dynamic background -->
+    <Border Grid.Row="1" Padding="18" Background="{Binding Background.BackgroundBrush}">
+      <Border.Transitions>
+        <Transitions>
+          <DoubleTransition Property="Opacity" Duration="0:0:0.2" Easing="CubicEaseOut"/>
+        </Transitions>
+      </Border.Transitions>
+
+      <TabControl x:Name="MainTabControl">
+        <TabItem Header="Очистка">
+          <views:CleaningView DataContext="{Binding Cleaning}"/>
+        </TabItem>
+        <TabItem Header="Просмотр файлов">
+          <views:FileViewerHost DataContext="{Binding FileViewer}"/>
+        </TabItem>
+        <TabItem Header="🔧 Утилиты">
+          <views:UtilitiesView DataContext="{Binding Utilities}"/>
+        </TabItem>
+        <TabItem Header="🗑️ Корзина">
+          <views:SafetyView DataContext="{Binding Safety}"/>
+        </TabItem>
+        <TabItem Header="⚙️ Твики">
+          <views:TweaksView DataContext="{Binding Tweaks}"/>
+        </TabItem>
+        <TabItem Header="Темы">
+          <views:ThemeManagerView DataContext="{Binding ThemeManager}"/>
+        </TabItem>
+        <TabItem Header="Настройки">
+          <views:SettingsView DataContext="{Binding Settings}"/>
+        </TabItem>
+      </TabControl>
+    </Border>
+  </Grid>
+
+</Window>

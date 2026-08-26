@@ -1,0 +1,134 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DiskCleanerGUI.Avalonia.ViewModels"
+             x:Class="DiskCleanerGUI.Avalonia.Views.TweaksView"
+             x:DataType="vm:TweaksViewModel">
+
+  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="16">
+    
+    <!-- Privacy & Security Tweaks -->
+    <Border Background="#AAE91E63" CornerRadius="12" Padding="16" Margin="0,0,0,16">
+      <StackPanel Spacing="12">
+        <TextBlock Text="{Binding PrivacySecurityText}" FontSize="18" FontWeight="Bold" Foreground="White"/>
+        
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="12" RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+          <Button Content="{Binding DefenderActionText}" Command="{Binding ToggleWindowsDefenderCommand}" 
+                  Background="#F44336" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}" 
+                  ToolTip.Tip="{Binding DefenderTooltipText}"/>
+          
+          <Button Grid.Column="1" Content="{Binding DisableTelemetryText}" Command="{Binding ToggleTelemetryCommand}" 
+                  Background="#9C27B0" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}"
+                  ToolTip.Tip="{Binding TelemetryTooltipText}"/>
+          
+          <Button Grid.Row="1" Content="{Binding DisableCortanaText}" Command="{Binding ToggleCortanaCommand}" 
+                  Background="#FF9800" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}"
+                  ToolTip.Tip="{Binding CortanaTooltipText}"/>
+          
+          <Button Grid.Row="1" Grid.Column="1" Content="{Binding UpdateActionText}" Command="{Binding ToggleWindowsUpdateCommand}" 
+                  Background="#607D8B" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}"
+                  ToolTip.Tip="{Binding UpdateTooltipText}"/>
+          
+          <Button Grid.Row="2" Content="{Binding DisableOneDriveText}" Command="{Binding ToggleOneDriveCommand}" 
+                  Background="#0078D4" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}"
+                  ToolTip.Tip="{Binding OneDriveTooltipText}"/>
+          
+          <Button Grid.Row="2" Grid.Column="1" Content="{Binding DisableStartMenuAdsText}" Command="{Binding ToggleStartMenuAdsCommand}" 
+                  Background="#E91E63" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}"
+                  ToolTip.Tip="{Binding StartMenuAdsTooltipText}"/>
+        </Grid>
+      </StackPanel>
+    </Border>
+    
+    <!-- Performance Tweaks -->
+    <Border Grid.Row="1" Background="#AA4CAF50" CornerRadius="12" Padding="16" Margin="0,0,0,16">
+      <StackPanel Spacing="12">
+        <TextBlock Text="{Binding PerformanceText}" FontSize="18" FontWeight="Bold" Foreground="White"/>
+        
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="12" RowDefinitions="Auto,Auto" RowSpacing="8">
+          <Button Content="{Binding OptimizeVisualText}" Command="{Binding OptimizeVisualEffectsCommand}" 
+                  Background="#2196F3" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}"
+                  ToolTip.Tip="{Binding VisualTooltipText}"/>
+          
+          <Button Grid.Column="1" Content="{Binding CleanStartupText}" Command="{Binding CleanStartupCommand}" 
+                  Background="#FF5722" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}"
+                  ToolTip.Tip="{Binding StartupTooltipText}"/>
+          
+          <Button Grid.Row="1" Content="{Binding DisableIndexingText}" Command="{Binding ToggleIndexingCommand}" 
+                  Background="#795548" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}"
+                  ToolTip.Tip="{Binding IndexingTooltipText}"/>
+          
+          <Button Grid.Row="1" Grid.Column="1" Content="{Binding DisableBackgroundAppsText}" Command="{Binding ToggleBackgroundAppsCommand}" 
+                  Background="#607D8B" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}"
+                  ToolTip.Tip="{Binding BackgroundAppsTooltipText}"/>
+        </Grid>
+      </StackPanel>
+    </Border>
+    
+    <!-- Customization Tweaks -->
+    <Border Grid.Row="2" Background="#AA2196F3" CornerRadius="12" Padding="16" Margin="0,0,0,16">
+      <StackPanel Spacing="12">
+        <TextBlock Text="{Binding CustomizationText}" FontSize="18" FontWeight="Bold" Foreground="White"/>
+        
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+          <Button Content="{Binding CreateGodModeText}" Command="{Binding EnableGodModeCommand}" 
+                  Background="#9C27B0" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}"
+                  ToolTip.Tip="{Binding GodModeTooltipText}"/>
+          
+          <Button Grid.Column="1" Content="{Binding EnableDarkThemeText}" Command="{Binding EnableDarkThemeCommand}" 
+                  Background="#424242" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}"
+                  ToolTip.Tip="{Binding DarkThemeTooltipText}"/>
+        </Grid>
+      </StackPanel>
+    </Border>
+    
+    <!-- System Optimization Tweaks -->
+    <Border Grid.Row="3" Background="#AAFF9800" CornerRadius="12" Padding="16" Margin="0,0,0,16">
+      <StackPanel Spacing="12">
+        <TextBlock Text="{Binding SystemOptimizationText}" FontSize="18" FontWeight="Bold" Foreground="White"/>
+        
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="12" RowDefinitions="Auto,Auto" RowSpacing="8">
+          <Button Content="{Binding SpeedUpAnimationsText}" Command="{Binding SpeedUpAnimationsCommand}" 
+                  Background="#673AB7" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}"
+                  ToolTip.Tip="{Binding AnimationsTooltipText}"/>
+          
+          <Button Grid.Column="1" Content="{Binding FlushDnsText}" Command="{Binding FlushDnsCommand}" 
+                  Background="#009688" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}"
+                  ToolTip.Tip="{Binding DnsTooltipText}"/>
+          
+          <Button Grid.Row="1" Content="{Binding OptimizeSsdText}" Command="{Binding OptimizeSsdCommand}" 
+                  Background="#3F51B5" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}"
+                  ToolTip.Tip="{Binding SsdTooltipText}"/>
+          
+          <Button Grid.Row="1" Grid.Column="1" Content="{Binding PageFileActionText}" Command="{Binding OptimizePageFileCommand}" 
+                  Background="#8BC34A" Foreground="White" Padding="12,8" FontWeight="SemiBold" 
+                  CornerRadius="6" IsEnabled="{Binding !IsWorking}"
+                  ToolTip.Tip="{Binding PageFileTooltipText}"/>
+        </Grid>
+      </StackPanel>
+    </Border>
+    
+    <!-- Status Bar -->
+    <Border Grid.Row="4" Background="#DD000000" CornerRadius="8" Padding="12">
+      <StackPanel Orientation="Horizontal" Spacing="12">
+        <TextBlock Text="🔄" FontSize="16" IsVisible="{Binding IsWorking}"/>
+        <TextBlock Text="{Binding Status}" Foreground="White" FontWeight="SemiBold" VerticalAlignment="Center"/>
+      </StackPanel>
+    </Border>
+    
+  </Grid>
+</UserControl>

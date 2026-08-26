@@ -1,0 +1,82 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DiskCleanerGUI.Avalonia.ViewModels"
+             xmlns:cvt="using:DiskCleanerGUI.Avalonia.Converters"
+             xmlns:ext="using:DiskCleanerGUI.Avalonia.Extensions"
+             x:Class="DiskCleanerGUI.Avalonia.Views.FileViewerHost"
+             x:DataType="vm:FileViewerViewModel">
+
+  <UserControl.Resources>
+    <cvt:ByteSizeConverter x:Key="ByteSizeConverter"/>
+  </UserControl.Resources>
+
+  <StackPanel Spacing="12">
+    <!-- Load files -->
+    <StackPanel Spacing="8">
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <TextBox x:Name="FolderPathBox" Width="420" Watermark="Путь к папке" Text="{Binding CurrentPath}"/>
+        <Button x:Name="BrowseFolderBtn" Content="{Binding BrowseText}" Click="OnBrowseFolder" Background="#4CAF50" Foreground="White" Padding="12,8" ToolTip.Tip="{Binding BrowseTooltipText}"/>
+        <Button x:Name="LoadBtn" Content="{Binding LoadText}" Command="{Binding LoadCommand}" Background="#2196F3" Foreground="White" Padding="12,8" ToolTip.Tip="{Binding LoadTooltipText}"/>
+      </StackPanel>
+      <TextBlock Text="{Binding Status}" Foreground="#B0B9CC" FontStyle="Italic"/>
+    </StackPanel>
+    
+    <!-- Search -->
+    <TextBox x:Name="SearchBox" Watermark="Поиск..." Text="{Binding Filter}"/>
+    
+    <!-- File list and preview -->
+    <Grid ColumnDefinitions="2*,*" ColumnSpacing="12" Height="300">
+      <Border Background="#AA101828" CornerRadius="8" Padding="8">
+        <ListBox ItemsSource="{Binding FilteredFiles}" SelectedItem="{Binding SelectedItem}" Background="Transparent">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Grid ColumnDefinitions="*,70" Margin="2">
+                <TextBlock Text="{Binding Path}" Foreground="White" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="{Binding Size, Converter={StaticResource ByteSizeConverter}}" Foreground="#B0B9CC" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+              </Grid>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </Border>
+      
+      <Border Grid.Column="1" Background="#AA2C3E50" CornerRadius="8" Padding="12">
+        <ScrollViewer>
+          <StackPanel Spacing="8">
+            <!-- Text preview -->
+            <TextBlock Text="{Binding FilePreview}" Foreground="White" FontFamily="Consolas" FontSize="12" TextWrapping="Wrap" IsVisible="{Binding IsTextPreview}"/>
+            
+            <!-- Image preview -->
+            <Image Source="{Binding PreviewImage}" Stretch="Uniform" MaxHeight="200" IsVisible="{Binding IsImagePreview}"/>
+          </StackPanel>
+        </ScrollViewer>
+      </Border>
+    </Grid>
+    
+    <!-- File actions -->
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <Button x:Name="OpenFileBtn" Content="{Binding OpenFileText}" Command="{Binding OpenSelectedCommand}" Background="#9C27B0" Foreground="White" Padding="12,8" ToolTip.Tip="{Binding OpenFileTooltipText}"/>
+      <Button x:Name="OpenInExplorerBtn" Content="{Binding OpenInExplorerText}" Command="{Binding OpenSelectedFolderCommand}" Background="#607D8B" Foreground="White" Padding="12,8" ToolTip.Tip="{Binding OpenInExplorerTooltipText}"/>
+      <Button x:Name="RemoveFromListBtn" Content="{Binding RemoveFromListText}" Command="{Binding RemoveSelectedCommand}" Background="#F44336" Foreground="White" Padding="12,8" ToolTip.Tip="{Binding RemoveFromListTooltipText}"/>
+    </StackPanel>
+    
+    <!-- Move files -->
+    <Border Background="#AA2196F3" CornerRadius="8" Padding="12">
+      <StackPanel Spacing="8">
+        <TextBlock x:Name="MoveFilesTitle" Text="Перемещение файлов" FontWeight="Bold" Foreground="White"/>
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <TextBox x:Name="MoveDestinationBox" Width="300" Watermark="Папка для перемещения" Text="{Binding MoveToPath}"/>
+          <Button x:Name="BrowseMoveBtn" Content="{Binding BrowseText}" Click="OnBrowseMoveFolder" Background="#4CAF50" Foreground="White" Padding="12,8" IsEnabled="{Binding !IsMoving}" ToolTip.Tip="{Binding BrowseMoveTooltipText}"/>
+          <Button x:Name="MoveSelectedBtn" Content="{Binding MoveSelectedText}" Command="{Binding MoveSelectedCommand}" Background="#FF9800" Foreground="White" Padding="12,8" IsEnabled="{Binding !IsMoving}" ToolTip.Tip="{Binding MoveSelectedTooltipText}"/>
+          <Button x:Name="MoveAllBtn" Content="{Binding MoveAllText}" Command="{Binding MoveAllFilteredCommand}" Background="#F44336" Foreground="White" Padding="12,8" IsEnabled="{Binding !IsMoving}" ToolTip.Tip="{Binding MoveAllTooltipText}"/>
+        </StackPanel>
+        
+        <!-- Progress bar -->
+        <StackPanel Spacing="4" IsVisible="{Binding IsMoving}">
+          <ProgressBar Value="{Binding MoveProgress}" Maximum="100" Height="8" Background="#33FFFFFF" Foreground="#4CAF50"/>
+          <TextBlock Text="{Binding MoveStatus}" Foreground="White" FontSize="12" HorizontalAlignment="Center"/>
+        </StackPanel>
+      </StackPanel>
+    </Border>
+  </StackPanel>
+
+</UserControl>

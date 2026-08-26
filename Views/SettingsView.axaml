@@ -1,0 +1,58 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DiskCleanerGUI.Avalonia.ViewModels"
+             xmlns:local="using:DiskCleanerGUI.Avalonia.Converters"
+             x:Class="DiskCleanerGUI.Avalonia.Views.SettingsView"
+             xmlns:ext="using:DiskCleanerGUI.Avalonia.Extensions"
+             x:DataType="vm:SettingsViewModel">
+
+  <StackPanel Spacing="16">
+    
+    <!-- Status -->
+    <TextBlock Text="{Binding Status}" Foreground="#4CAF50" FontWeight="Bold" HorizontalAlignment="Center" IsVisible="{Binding Status, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+    
+    <!-- General Settings -->
+    <Border Background="#AA101828" CornerRadius="12" Padding="20">
+      <StackPanel Spacing="16">
+        <TextBlock x:Name="GeneralSettingsTitle" Text="Общие настройки" FontSize="18" FontWeight="Bold" Foreground="White"/>
+        <ToggleSwitch x:Name="DarkThemeSwitch" Content="{Binding DarkThemeText}" IsChecked="{Binding DarkTheme}" Foreground="White" ToolTip.Tip="{Binding DarkThemeTooltipText}"/>
+        
+        <StackPanel Spacing="8">
+          <TextBlock x:Name="LanguageLabel" Text="{Binding LanguageText}" Foreground="White" FontWeight="SemiBold"/>
+          <ComboBox x:Name="LanguageComboBox" Width="200" HorizontalAlignment="Left" ToolTip.Tip="{Binding LanguageTooltipText}" SelectedIndex="{Binding LanguageIndex}">
+            <ComboBoxItem Content="Русский"/>
+            <ComboBoxItem Content="English"/>
+          </ComboBox>
+        </StackPanel>
+        
+        <StackPanel Spacing="8">
+          <TextBlock x:Name="UiScaleLabel" Text="{Binding UiScaleText}" Foreground="White" FontWeight="SemiBold"/>
+          <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+            <Slider x:Name="UiScaleSlider" Value="{Binding UiScale}" Minimum="0.5" Maximum="2.0" TickFrequency="0.1" IsSnapToTickEnabled="True" ToolTip.Tip="{Binding UiScaleTooltipText}"/>
+            <TextBlock Grid.Column="1" Text="{Binding UiScale, StringFormat='{}{0:P0}'}" Foreground="#B0B9CC" VerticalAlignment="Center" Width="50"/>
+          </Grid>
+          <TextBlock x:Name="DragToResizeText" Text="Перетащите для увеличения или уменьшения размера текста и кнопок" Foreground="#CCFFFFFF" FontSize="11" FontStyle="Italic"/>
+        </StackPanel>
+        
+        <TextBlock x:Name="ThemeHintText" Text="Для смены фона перейдите на вкладку 'Темы'" Foreground="#CCFFFFFF" FontStyle="Italic"/>
+      </StackPanel>
+    </Border>
+    
+    <!-- Security Settings -->
+    <Border Background="#AA101828" CornerRadius="12" Padding="20">
+      <StackPanel Spacing="16">
+        <TextBlock Text="Безопасность" FontSize="18" FontWeight="Bold" Foreground="White"/>
+        <ToggleSwitch Content="{Binding SafeDeleteText}" IsChecked="{Binding SafeDelete}" Foreground="White" ToolTip.Tip="{Binding SafeDeleteTooltipText}"/>
+        <ToggleSwitch Content="{Binding ShowNotificationsText}" IsChecked="{Binding ShowNotifications}" Foreground="White" ToolTip.Tip="{Binding ShowNotificationsTooltipText}"/>
+      </StackPanel>
+    </Border>
+
+    <!-- Action Buttons -->
+    <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
+      <Button x:Name="SaveSettingsBtn" Content="{Binding SaveSettingsBtnText}" Command="{Binding SaveSettingsCommand}" Background="#4CAF50" Foreground="White" Padding="20,10" FontWeight="Bold" ToolTip.Tip="{Binding SaveSettingsBtnTooltipText}"/>
+      <Button x:Name="ResetSettingsBtn" Content="{Binding ResetSettingsText}" Command="{Binding ResetSettingsCommand}" Background="#FF5722" Foreground="White" Padding="20,10" FontWeight="Bold" ToolTip.Tip="{Binding ResetSettingsTooltipText}"/>
+    </StackPanel>
+    
+  </StackPanel>
+
+</UserControl>

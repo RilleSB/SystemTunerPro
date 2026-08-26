@@ -1,0 +1,128 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DiskCleanerGUI.Avalonia.ViewModels"
+             x:Class="DiskCleanerGUI.Avalonia.Views.ThemeManagerView"
+             x:DataType="vm:ThemeManagerViewModel">
+
+  <ScrollViewer>
+    <StackPanel Spacing="16" Margin="16">
+      
+      <!-- Header -->
+      <TextBlock x:Name="ThemeManagerTitle" Text="Менеджер тем" FontSize="24" FontWeight="Bold" Foreground="White"/>
+      <TextBlock Text="{Binding Status}" Foreground="#B0B9CC" FontStyle="Italic"/>
+      
+      <!-- Theme List -->
+      <Border Background="#AA101828" CornerRadius="8" Padding="12">
+        <StackPanel Spacing="12">
+          <TextBlock x:Name="AvailableThemesTitle" Text="Доступные темы" FontWeight="Bold" Foreground="White"/>
+          
+          <ListBox ItemsSource="{Binding Themes}" SelectedItem="{Binding SelectedTheme}" Height="200" Background="Transparent">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <Border Background="#AA2C3E50" CornerRadius="6" Padding="12" Margin="2">
+                  <StackPanel Spacing="4">
+                    <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="White"/>
+                    <TextBlock Text="{Binding Author}" FontSize="12" Foreground="#B0B9CC"/>
+                    <TextBlock Text="{Binding Description}" FontSize="11" Foreground="#90A4AE" TextWrapping="Wrap"/>
+                    
+                    <!-- Color preview -->
+                    <StackPanel Orientation="Horizontal" Spacing="4" Margin="0,4,0,0">
+                      <Border Width="20" Height="20" CornerRadius="10" Background="{Binding PrimaryColor}"/>
+                      <Border Width="20" Height="20" CornerRadius="10" Background="{Binding SecondaryColor}"/>
+                      <Border Width="20" Height="20" CornerRadius="10" Background="{Binding AccentColor}"/>
+                    </StackPanel>
+                  </StackPanel>
+                </Border>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+          
+          <StackPanel Spacing="8">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <Button x:Name="ApplyThemeBtn" Command="{Binding ApplyThemeCommand}" Background="#4CAF50" Foreground="White" Padding="12,8"/>
+              <Button x:Name="ApplyLastThemeBtn" Command="{Binding ApplyLastThemeCommand}" Background="#FF9800" Foreground="White" Padding="12,8"/>
+              <Button x:Name="DeleteThemeBtn" Command="{Binding DeleteThemeCommand}" Background="#F44336" Foreground="White" Padding="12,8"/>
+              <Button x:Name="RefreshThemesBtn" Command="{Binding LoadThemesCommand}" Background="#2196F3" Foreground="White" Padding="12,8"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <Button x:Name="ExportThemeBtn" Command="{Binding ExportThemeCommand}" Background="#FF9800" Foreground="White" Padding="12,8"/>
+              <Button x:Name="ImportThemeBtn" Command="{Binding ImportThemeCommand}" Background="#9C27B0" Foreground="White" Padding="12,8"/>
+            </StackPanel>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+      
+      <!-- Create New Theme -->
+      <Border Background="#AA2196F3" CornerRadius="8" Padding="12">
+        <StackPanel Spacing="12">
+          <TextBlock x:Name="CreateThemeTitle" Text="Создать новую тему" FontWeight="Bold" Foreground="White"/>
+          
+          <Grid ColumnDefinitions="*,*" ColumnSpacing="12" RowDefinitions="Auto,Auto,Auto,Auto,Auto" RowSpacing="8">
+            
+            <!-- Basic Info -->
+            <TextBox x:Name="ThemeNameBox" Grid.Column="0" Watermark="Название темы" Text="{Binding NewThemeName}"/>
+            <TextBox x:Name="AuthorBox" Grid.Column="1" Watermark="Автор" Text="{Binding NewThemeAuthor}"/>
+            
+            <TextBox x:Name="DescriptionBox" Grid.Row="1" Grid.ColumnSpan="2" Watermark="Описание темы" Text="{Binding NewThemeDescription}"/>
+            
+            <!-- Colors Row 1 -->
+            <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Spacing="8">
+              <TextBlock x:Name="PrimaryColorLabel" Text="Основной:" Foreground="White" VerticalAlignment="Center" Width="80"/>
+              <Button Width="60" Height="30" CornerRadius="4" Background="{Binding NewPrimaryColor}" Click="OnPrimaryColorClick" Tag="Primary"/>
+              <TextBlock Text="{Binding NewPrimaryColor}" Foreground="#B0B9CC" VerticalAlignment="Center" FontFamily="Consolas" FontSize="11"/>
+            </StackPanel>
+            
+            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Spacing="8">
+              <TextBlock x:Name="SecondaryColorLabel" Text="Вторичный:" Foreground="White" VerticalAlignment="Center" Width="80"/>
+              <Button Width="60" Height="30" CornerRadius="4" Background="{Binding NewSecondaryColor}" Click="OnSecondaryColorClick" Tag="Secondary"/>
+              <TextBlock Text="{Binding NewSecondaryColor}" Foreground="#B0B9CC" VerticalAlignment="Center" FontFamily="Consolas" FontSize="11"/>
+            </StackPanel>
+            
+            <!-- Colors Row 2 -->
+            <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Spacing="8">
+              <TextBlock x:Name="AccentColorLabel" Text="Акцент:" Foreground="White" VerticalAlignment="Center" Width="80"/>
+              <Button Width="60" Height="30" CornerRadius="4" Background="{Binding NewAccentColor}" Click="OnAccentColorClick" Tag="Accent"/>
+              <TextBlock Text="{Binding NewAccentColor}" Foreground="#B0B9CC" VerticalAlignment="Center" FontFamily="Consolas" FontSize="11"/>
+            </StackPanel>
+            
+            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Spacing="8">
+              <TextBlock x:Name="BackgroundColorLabel" Text="Фон:" Foreground="White" VerticalAlignment="Center" Width="80"/>
+              <Button Width="60" Height="30" CornerRadius="4" Background="{Binding NewBackgroundColor}" Click="OnBackgroundColorClick" Tag="Background"/>
+              <TextBlock Text="{Binding NewBackgroundColor}" Foreground="#B0B9CC" VerticalAlignment="Center" FontFamily="Consolas" FontSize="11"/>
+            </StackPanel>
+            
+            <!-- Gradient Colors -->
+            <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" Spacing="8">
+              <TextBlock x:Name="Gradient1Label" Text="Градиент 1:" Foreground="White" VerticalAlignment="Center" Width="80"/>
+              <Button Width="60" Height="30" CornerRadius="4" Background="{Binding NewGradientStart}" Click="OnGradientStartColorClick" Tag="GradientStart"/>
+              <TextBlock Text="{Binding NewGradientStart}" Foreground="#B0B9CC" VerticalAlignment="Center" FontFamily="Consolas" FontSize="11"/>
+            </StackPanel>
+            
+            <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" Spacing="8">
+              <TextBlock x:Name="Gradient2Label" Text="Градиент 2:" Foreground="White" VerticalAlignment="Center" Width="80"/>
+              <Button Width="60" Height="30" CornerRadius="4" Background="{Binding NewGradientEnd}" Click="OnGradientEndColorClick" Tag="GradientEnd"/>
+              <TextBlock Text="{Binding NewGradientEnd}" Foreground="#B0B9CC" VerticalAlignment="Center" FontFamily="Consolas" FontSize="11"/>
+            </StackPanel>
+          </Grid>
+          
+          <!-- Background Image Section -->
+          <Border Background="#AA34495E" CornerRadius="8" Padding="12" Margin="0,8,0,0">
+            <StackPanel Spacing="8">
+              <TextBlock x:Name="BackgroundImageTitle" Text="🇫🇷 Фоновое изображение" FontWeight="Bold" Foreground="White"/>
+              <CheckBox x:Name="UseBackgroundImageCheck" Content="Использовать фоновое изображение" IsChecked="{Binding UseBackgroundImage}" Foreground="White"/>
+              <StackPanel Orientation="Horizontal" Spacing="8" IsEnabled="{Binding UseBackgroundImage}">
+                <Button x:Name="SelectImageBtn" Content="🖼️ Выбрать изображение" Command="{Binding SelectBackgroundImageCommand}" Background="#9C27B0" Foreground="White" Padding="12,8"/>
+                <TextBlock Text="{Binding NewBackgroundImagePath, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" Foreground="#B0B9CC" VerticalAlignment="Center"/>
+              </StackPanel>
+              <TextBlock Text="{Binding NewBackgroundImagePath}" Foreground="#90A4AE" FontSize="10" TextTrimming="CharacterEllipsis" IsVisible="{Binding NewBackgroundImagePath, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+            </StackPanel>
+          </Border>
+          
+          <Button x:Name="CreateThemeBtn" Command="{Binding CreateThemeCommand}" Background="#4CAF50" Foreground="White" Padding="16,10" HorizontalAlignment="Center"/>
+        </StackPanel>
+      </Border>
+      
+    </StackPanel>
+  </ScrollViewer>
+
+</UserControl>
