@@ -4,6 +4,10 @@
 
 ### Очистка, управление файлами и системные настройки для Windows
 
+![Последний релиз](https://img.shields.io/github/v/release/RilleSB/SystemTunerPro?label=%D1%80%D0%B5%D0%BB%D0%B8%D0%B7&logo=github)
+![Загрузки](https://img.shields.io/github/downloads/RilleSB/SystemTunerPro/total?label=%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B8&logo=github)
+![Платформа](https://img.shields.io/badge/%D0%BF%D0%BB%D0%B0%D1%82%D1%84%D0%BE%D1%80%D0%BC%D0%B0-Windows%20x64-0078D4?logo=windows)
+
 [Скачать последнюю версию](https://github.com/RilleSB/SystemTunerPro/releases/latest) · [Открыть релизы](https://github.com/RilleSB/SystemTunerPro/releases) · [Сообщить о проблеме](https://github.com/RilleSB/SystemTunerPro/issues)
 
 </div>
@@ -32,10 +36,10 @@ SystemTunerPro помогает освободить место на диске,
 
 | Файл | Для кого | Что нужно |
 | --- | --- | --- |
-| `SystemTunerPro.exe` | Если на компьютере уже есть .NET 9 | [.NET 9 Desktop Runtime для Windows x64](https://dotnet.microsoft.com/download/dotnet/9.0) |
+| [`SystemTunerPro.exe`](https://github.com/RilleSB/SystemTunerPro/releases/latest/download/SystemTunerPro.exe) | Если на компьютере уже есть .NET 9 | [.NET 9 Desktop Runtime для Windows x64](https://dotnet.microsoft.com/download/dotnet/9.0) |
 | `SystemTunerPro-…-portable.zip` | Если программа запускается на чистой Windows или нужна переносная версия | Ничего: распаковать архив и запустить `SystemTunerPro.exe` |
 
-Оба варианта предназначены для Windows x64. Для твиков и части системных операций могут понадобиться права администратора.
+**Системные требования:** Windows 10 или 11 x64. Для твиков и части системных операций могут понадобиться права администратора.
 
 ## Безопасность и восстановление
 
