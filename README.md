@@ -20,4 +20,14 @@ Windows-приложение для поиска и очистки времен�
 dotnet build -c Release
 ```
 
+## Релизные варианты
+
+Для создания двух portable-вариантов под Windows x64:
+
+```powershell
+.\scripts\publish-release.ps1 -Version 1.0.0
+```
+
+Скрипт создаёт одиночный self-contained `SystemTunerPro.exe` и ZIP-архив portable-версии со всеми DLL. Папка `release/` предназначена для локальных артефактов и не добавляется в Git.
+
 Проект предназначен для Windows и использует .NET 9 и Avalonia UI.

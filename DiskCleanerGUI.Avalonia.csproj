@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AssemblyName>SystemTunerPro</AssemblyName>
     <AssemblyTitle>SystemTuner Pro</AssemblyTitle>
     <AssemblyDescription>System Optimization and Cleaning Tool</AssemblyDescription>
     <AssemblyCompany>SystemTuner</AssemblyCompany>
