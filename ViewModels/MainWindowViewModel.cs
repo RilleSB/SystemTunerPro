@@ -5,6 +5,8 @@ using Avalonia.Media.Imaging;
 using DiskCleanerGUI.Avalonia.Models;
 using DiskCleanerGUI.Avalonia.Services;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace DiskCleanerGUI.Avalonia.ViewModels;
@@ -15,6 +17,7 @@ namespace DiskCleanerGUI.Avalonia.ViewModels;
 /// </summary>
 public partial class MainWindowViewModel : ViewModelBase
 {
+    private readonly GitHubUpdateService _updateService = new();
     /// <summary>
     /// Общий экземпляр ViewModel для фона - используется всеми окнами
     /// </summary>
@@ -30,6 +33,11 @@ public partial class MainWindowViewModel : ViewModelBase
     
     // Синглтон для настроек - создается один раз и сохраняется
     public static SettingsViewModel SharedSettings { get; } = new();
+
+    [ObservableProperty] private bool isCheckingForUpdates;
+    [ObservableProperty] private bool isUpdateAvailable;
+    [ObservableProperty] private string updateStatus = "Проверить обновления";
+    private Uri? _latestReleaseUrl;
     
     // Свойства для доступа к ViewModels вкладок (создаются при первом обращении)
     public CleaningViewModel Cleaning => _cleaning ??= new();           // Вкладка очистки
@@ -71,6 +79,46 @@ public partial class MainWindowViewModel : ViewModelBase
                 SharedBackground.BackgroundBrush ??= CreateDefaultGradient();
             });
         });
+
+        _ = CheckForUpdatesAsync();
+    }
+
+    [RelayCommand]
+    private async Task CheckForUpdatesAsync()
+    {
+        if (IsCheckingForUpdates)
+            return;
+
+        try
+        {
+            IsCheckingForUpdates = true;
+            UpdateStatus = "Проверка обновлений…";
+
+            var result = await _updateService.CheckForUpdatesAsync();
+            _latestReleaseUrl = result.ReleaseUrl;
+            IsUpdateAvailable = result.IsUpdateAvailable;
+            UpdateStatus = result.IsUpdateAvailable
+                ? $"Доступна версия {result.LatestTag}"
+                : $"Установлена актуальная версия {result.CurrentVersion.Major}.{result.CurrentVersion.Minor}.{result.CurrentVersion.Build}";
+        }
+        catch (Exception)
+        {
+            IsUpdateAvailable = false;
+            UpdateStatus = "Не удалось проверить обновления";
+        }
+        finally
+        {
+            IsCheckingForUpdates = false;
+        }
+    }
+
+    [RelayCommand]
+    private void OpenLatestRelease()
+    {
+        if (_latestReleaseUrl == null)
+            return;
+
+        Process.Start(new ProcessStartInfo(_latestReleaseUrl.AbsoluteUri) { UseShellExecute = true });
     }
     
     /// <summary>

@@ -80,7 +80,7 @@
         <TextBlock Text="📊 Поиск больших файлов" FontSize="18" FontWeight="Bold" Foreground="White"/>
         
         <Grid ColumnDefinitions="*,Auto,Auto,Auto">
-          <TextBox Text="{Binding ScanPath}" Watermark="C:\" Background="White" Foreground="Black"/>
+          <TextBox Classes="utility-input" Text="{Binding ScanPath}" Watermark="C:\"/>
           <Button Grid.Column="1" Content="👤" Command="{Binding SelectUserProfileCommand}" Margin="5,0,0,0" Padding="8,4"/>
           <Button Grid.Column="2" Content="📥" Command="{Binding SelectDownloadsCommand}" Margin="5,0,0,0" Padding="8,4"/>
           <Button Grid.Column="3" Content="📄" Command="{Binding SelectDocumentsCommand}" Margin="5,0,0,0" Padding="8,4"/>
@@ -123,8 +123,8 @@
         
         <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
           <TextBlock x:Name="ShutdownInLabel" Text="Выключить через:" Foreground="White" VerticalAlignment="Center"/>
-          <TextBox Text="{Binding ShutdownMinutes}" Width="80" HorizontalContentAlignment="Center" 
-                   Background="White" Foreground="Black" Padding="8,4" CornerRadius="4"/>
+          <TextBox Classes="utility-input" Text="{Binding ShutdownMinutes}" Width="80" HorizontalContentAlignment="Center"
+                   Padding="8,4" CornerRadius="4"/>
           <TextBlock x:Name="MinutesLabel" Text="минут" Foreground="White" VerticalAlignment="Center"/>
         </StackPanel>
         

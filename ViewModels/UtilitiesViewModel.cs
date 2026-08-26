@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Avalonia.Threading;
 
 namespace DiskCleanerGUI.Avalonia.ViewModels;
 
@@ -13,6 +14,7 @@ public partial class UtilitiesViewModel : LocalizedViewModelBase
 {
     private readonly SystemUtilitiesService _systemService = new();
     private readonly Timer _systemInfoTimer;
+    private int _isRefreshingSystemInfo;
     
     [ObservableProperty] private string status = "";
     
@@ -81,20 +83,31 @@ public partial class UtilitiesViewModel : LocalizedViewModelBase
     [System.Runtime.Versioning.SupportedOSPlatform("windows")]
     private void UpdateSystemInfo(object? state)
     {
+        if (Interlocked.Exchange(ref _isRefreshingSystemInfo, 1) != 0)
+            return;
+
         try
         {
             var info = _systemService.GetSystemInfo();
-            CpuUsage = info.CpuUsage;
-            MemoryUsageMB = info.MemoryUsageMB;
-            MemoryUsageText = $"{info.MemoryUsageMB} MB";
-            
-            DiskUsage.Clear();
-            foreach (var disk in info.DiskUsage)
+            Dispatcher.UIThread.Post(() =>
             {
-                DiskUsage.Add(disk);
-            }
+                CpuUsage = info.CpuUsage;
+                MemoryUsageMB = info.MemoryUsageMB;
+                MemoryUsageText = $"{info.MemoryUsageMB} MB";
+
+                DiskUsage.Clear();
+                foreach (var disk in info.DiskUsage.OrderBy(disk => disk.Drive, StringComparer.OrdinalIgnoreCase))
+                    DiskUsage.Add(disk);
+            });
         }
-        catch { }
+        catch
+        {
+            // Monitoring failure should not affect the rest of the utilities screen.
+        }
+        finally
+        {
+            Volatile.Write(ref _isRefreshingSystemInfo, 0);
+        }
     }
     
     [RelayCommand]

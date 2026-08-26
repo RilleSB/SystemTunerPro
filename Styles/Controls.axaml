@@ -91,4 +91,20 @@
     <Setter Property="CornerRadius" Value="6"/>
     <!-- Removed GridLinesVisibility/HeadersVisibility/RowHeight to avoid FieldAccess on some Avalonia builds -->
   </Style>
+
+  <!-- Stable text input colors for panels with bright custom backgrounds -->
+  <Style Selector="TextBox.utility-input">
+    <Setter Property="Background" Value="#FFFFFFFF"/>
+    <Setter Property="Foreground" Value="#FF172033"/>
+    <Setter Property="CaretBrush" Value="#FF172033"/>
+    <Setter Property="BorderBrush" Value="#FFB8C2D1"/>
+    <Setter Property="BorderThickness" Value="1"/>
+  </Style>
+
+  <Style Selector="TextBox.utility-input:focus">
+    <Setter Property="Background" Value="#FFFFFFFF"/>
+    <Setter Property="Foreground" Value="#FF172033"/>
+    <Setter Property="CaretBrush" Value="#FF172033"/>
+    <Setter Property="BorderBrush" Value="#FF1976D2"/>
+  </Style>
 </Styles>

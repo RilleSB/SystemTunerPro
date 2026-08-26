@@ -24,6 +24,13 @@
     <Border Grid.Row="0" Padding="16" Background="#0F1629">
       <DockPanel>
         <TextBlock x:Name="AppTitleText" Text="SystemTuner Pro" FontSize="20" FontWeight="SemiBold" Foreground="White"/>
+        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+          <TextBlock Text="{Binding UpdateStatus}" Foreground="#FFD8E5F5" VerticalAlignment="Center"/>
+          <Button Content="Проверить обновления" Command="{Binding CheckForUpdatesCommand}"
+                  IsEnabled="{Binding !IsCheckingForUpdates}" Padding="10,5"/>
+          <Button Content="Открыть релиз" Command="{Binding OpenLatestReleaseCommand}"
+                  IsVisible="{Binding IsUpdateAvailable}" Padding="10,5"/>
+        </StackPanel>
       </DockPanel>
     </Border>
 
