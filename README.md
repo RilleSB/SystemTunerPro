@@ -28,6 +28,6 @@ dotnet build -c Release
 .\scripts\publish-release.ps1 -Version 1.0.0
 ```
 
-Скрипт создаёт небольшой одиночный `SystemTunerPro.exe`, которому нужен .NET 9 Desktop Runtime, и self-contained ZIP portable-версии со всеми DLL. Папка `release/` предназначена для локальных артефактов и не добавляется в Git.
+Скрипт создаёт небольшой одиночный `SystemTunerPro.exe`, которому нужен [.NET 9 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/9.0), и self-contained ZIP portable-версии со всеми DLL. Для запуска EXE нужен именно Desktop Runtime под Windows x64, SDK устанавливать не требуется. Папка `release/` предназначена для локальных артефактов и не добавляется в Git.
 
 Проект предназначен для Windows и использует .NET 9 и Avalonia UI.
