@@ -15,7 +15,7 @@ if (Test-Path $outRoot) {
 }
 New-Item -ItemType Directory -Path $singleDir, $portableDir | Out-Null
 
-dotnet publish $project -c Release -r win-x64 --self-contained true `
+dotnet publish $project -c Release -r win-x64 --self-contained false `
     -p:PublishSingleFile=true `
     -p:IncludeNativeLibrariesForSelfExtract=true `
     -p:DebugType=None `
